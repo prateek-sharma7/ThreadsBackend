@@ -3,6 +3,8 @@ import { connect } from "./config/database.js";
 import Tweet from "./models/tweet.js";
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.listen(3000, async () => {
   console.log("Server started");
