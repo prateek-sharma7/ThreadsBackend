@@ -1,8 +1,9 @@
 import express from "express";
-import { createTweet } from "../controllers/tweet-controller.js";
+
+import v1ApiRouter from "./v1/index.js";
 
 const router = express.Router();
 
-router.use("/", createTweet);
+router.use("/v1", v1ApiRouter);
 
 export default router;

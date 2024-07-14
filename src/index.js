@@ -1,24 +1,23 @@
 import express from "express";
-import { connect } from "./config/database.js";
-import Tweet from "./models/tweet.js";
+import passport from "passport";
+
+import connect from "./config/database.js";
+import apiRoutes from "./routes/index.js";
+
+import { passportAuth } from "./config/jwt-middleware.js";
 
 const app = express();
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use("/api", router);
+app.use(passport.initialize());
+passportAuth(passport);
+
+app.use("/api", apiRoutes);
 
 app.listen(3000, async () => {
-  console.log("Server started");
-
-  connect();
-
-  console.log("Database connected.");
-
-  Tweet.create({
-    content: "This is my first tweet",
-    likes: 25,
-    noOfRetweets: 5,
-    comment: "My comment",
-  });
+  console.log("Server started at Port", 3000);
+  await connect();
+  console.log("Mongo db connected");
 });
